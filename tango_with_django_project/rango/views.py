@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login
 
 
 def index(request):
@@ -123,5 +125,24 @@ def register(request):
     return render( request, 'rango/register.html',
                    {'user_form' : user_form, 'profile_form' : profile_form, 'registered' : registered} )
     
-    
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(username=username, password=password)
+        
+        if user:
+            if user.is_active:
+                login(request,user)
+                return HttpResponseRedirect('/rango/')
+            else:
+                return HttpResponse("Your account is currently disabled.")
+        # not valid password
+        else:
+            print "Invalid username or password"
+            return HttpResponse("Invalid username or password")
+    #not a post
+    else:
+        return render(request, 'rango/login.html', {})
     
