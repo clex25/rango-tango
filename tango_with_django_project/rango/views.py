@@ -54,6 +54,7 @@ def category(request, category_name_slug):
     
     return render(request, 'rango/category.html', context_dict)
 
+@login_required
 def add_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -66,8 +67,9 @@ def add_category(request):
     else:
         form = CategoryForm()
     
-    return render(request, 'rango/add_category.html',{'form':form})  
-
+    return render(request, 'rango/add_category.html',{'form':form})
+  
+@login_required
 def add_page(request, category_name_slug):
     
     try:
