@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -145,4 +146,13 @@ def user_login(request):
     #not a post
     else:
         return render(request, 'rango/login.html', {})
+
+@login_required
+def restricted(request):
+    return HttpResponse("Secret text for logged in users only")
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/rango/')
     
