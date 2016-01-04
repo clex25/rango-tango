@@ -146,7 +146,7 @@ def user_login(request):
                 print('next' + next)             
                 if bool(urlparse.urlparse(next).netloc) or next.startswith('www') or next == '':
                     next = '/rango/'
-                print('redirect next' + next)
+                
                 return HttpResponseRedirect(next)
             
             #disabled account
