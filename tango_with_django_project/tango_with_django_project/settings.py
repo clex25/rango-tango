@@ -21,7 +21,8 @@ OPTIONS = {
     "django.template.context_processors.media",
     "django.template.context_processors.static",
     "django.template.context_processors.tz",
-    "django.contrib.messages.context_processors.messages"],
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request" ],
     'debug' : True,
 }
 DIRECTORY_PATH = [os.path.join(BASE_DIR, 'templates')]

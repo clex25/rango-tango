@@ -6,6 +6,7 @@ from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+import urlparse
 
 
 def index(request):
@@ -129,6 +130,7 @@ def register(request):
                    {'user_form' : user_form, 'profile_form' : profile_form, 'registered' : registered} )
     
 def user_login(request):
+        
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -138,7 +140,16 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect('/rango/')
+                
+                #check if it is an absolute url, or empty. don't redirect to other sites.
+                next = request.POST.get('next','')
+                print('next' + next)             
+                if bool(urlparse.urlparse(next).netloc) or next.startswith('www') or next == '':
+                    next = '/rango/'
+                print('redirect next' + next)
+                return HttpResponseRedirect(next)
+            
+            #disabled account
             else:
                 return HttpResponse("Your account is currently disabled.")
         # not valid password
@@ -157,4 +168,6 @@ def restricted(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/rango/')
+
+
     
