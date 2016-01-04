@@ -13,10 +13,28 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Template Directory
-TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
-TEMPLATE_DIRS = (
-    TEMPLATE_PATH,
-)
+
+OPTIONS = {
+    'context_processors' : ["django.contrib.auth.context_processors.auth",
+    "django.template.context_processors.debug",
+    "django.template.context_processors.i18n",
+    "django.template.context_processors.media",
+    "django.template.context_processors.static",
+    "django.template.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"],
+    'debug' : True,
+}
+DIRECTORY_PATH = [os.path.join(BASE_DIR, 'templates')]
+
+TEMPLATES = [
+    {
+        'BACKEND' : 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS' : True ,
+        'DIRS' : DIRECTORY_PATH, 
+        'OPTIONS' : OPTIONS
+    },
+]
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,8 +45,6 @@ SECRET_KEY = 'x_*x0b0-0**of-o&7fcfmbs$0rh1^$wb&jh+vyuntu&p80=nl#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
