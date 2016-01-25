@@ -3,6 +3,11 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
+from registration.backends.simple.views import RegistrationView
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, request, user):
+        return '/rango/'
 
 urlpatterns = [
     # Examples:
@@ -13,6 +18,9 @@ urlpatterns = [
     url(r'^rango/', include('rango.urls')),
     url(r'^favicon.ico$', RedirectView.as_view(
                             url='static/favicon.ico')),
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+    
 ]
 
 if settings.DEBUG:
