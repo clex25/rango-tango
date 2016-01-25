@@ -7,32 +7,47 @@
 {% block body_block%}
 
     {% if user.is_authenticated %}
-    <h1>Welcome, {{ user.username }} </h1>
+    <div class="page-header">
+        <h1>Welcome, {{ user.username }} </h1>
+    </div>
     <br />
     {% endif %}
     <p> visits: {{ visits }} </p>
-    <h1>Categories</h1>
-    
-    {% if categories %}
-        <ul>
-            {% for category in categories %}
-            <li><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong> There are no categories present. </strong>
-    {% endif %}
-    
-    <h1>Top 5 viewed pages</h1>
-        {% if pages %}
-            <ul>
-                {% for page in pages %}
-                <li><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.views }} views</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong> There are no pages to display. </strong>
-        {% endif %}
+    <div class="row placeholders">
+        <div class="col-xs-12 col-sm-6 placeholder">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Categories</h3>
+                </div>
+            </div>
+            
+            {% if categories %}
+                <ul class="list-group">
+                    {% for category in categories %}
+                    <li class="list-group-item"><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong> There are no categories present. </strong>
+            {% endif %}
+        </div>
+        <div class="col-xs-12 col-sm-6 placeholder">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Top 5 viewed pages</h3>
+                </div>
+            </div>
+                {% if pages %}
+                    <ul class="list-group">
+                        {% for page in pages %}
+                        <li class="list-group-item"><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.views }} views</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong> There are no pages to display. </strong>
+                {% endif %}
+        </div>
+    </div>
     
 
 {% endblock %}
